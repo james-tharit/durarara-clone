@@ -50,18 +50,13 @@ class TwoWayServiceTest {
             null
         }.`when`(mockConsumer).subscribe(eq("response-topic"), any())
 
-        // Use reflection to set the mock producer and consumer
-        twoWayService = TwoWayService()
-        val producerField = TwoWayService::class.java.getDeclaredField("producer")
-        producerField.isAccessible = true
-        producerField.set(twoWayService, mockProducer)
+        // Instantiate TwoWayService with mocked producer and consumer
+        twoWayService = TwoWayService(mockProducer, mockConsumer)
 
-        val consumerField = TwoWayService::class.java.getDeclaredField("consumer")
-        consumerField.isAccessible = true
-        consumerField.set(twoWayService, mockConsumer)
-
-        // Manually trigger the init block's consumer subscription logic
-        // because the mockConsumer.subscribe won't be called by the real constructor
+        // Manually trigger the init block's consumer subscription logic.
+        // The TwoWayService constructor now takes producer/consumer and its init block
+        // will call `startConsumerThread()`, which then calls `consumer.subscribe()`.
+        // The mock setup for `consumer.subscribe` should still work.
         // The TwoWayService constructor starts a thread that calls consumer.subscribe.
         // We need to simulate this behavior for the test.
          val initThread = Thread {

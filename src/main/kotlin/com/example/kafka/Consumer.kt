@@ -5,15 +5,20 @@ import java.time.Duration
 import java.util.Properties
 import java.util.Collections
 
-class Consumer {
+class Consumer(
+    bootstrapServers: String = "localhost:9092",
+    groupId: String = "my-consumer-group"
+) {
     private val consumer: KafkaConsumer<String, String>
 
     init {
         val props = Properties()
-        props["bootstrap.servers"] = "localhost:9092"
+        props["bootstrap.servers"] = bootstrapServers
         props["key.deserializer"] = "org.apache.kafka.common.serialization.StringDeserializer"
         props["value.deserializer"] = "org.apache.kafka.common.serialization.StringDeserializer"
-        props["group.id"] = "my-consumer-group"
+        props["group.id"] = groupId
+        // Add auto.offset.reset config to avoid issues with re-running tests or joining existing groups
+        props["auto.offset.reset"] = "latest" // Or "earliest" depending on desired behavior
         consumer = KafkaConsumer(props)
     }
 

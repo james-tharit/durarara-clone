@@ -6,12 +6,12 @@ import org.apache.kafka.common.header.Header
 import org.apache.kafka.common.header.internals.RecordHeader
 import java.util.Properties
 
-class Producer {
+class Producer(bootstrapServers: String = "localhost:9092") {
     private val producer: KafkaProducer<String, String>
 
     init {
         val props = Properties()
-        props["bootstrap.servers"] = "localhost:9092"
+        props["bootstrap.servers"] = bootstrapServers
         props["key.serializer"] = "org.apache.kafka.common.serialization.StringSerializer"
         props["value.serializer"] = "org.apache.kafka.common.serialization.StringSerializer"
         producer = KafkaProducer(props)
