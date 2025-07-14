@@ -1,0 +1,60 @@
+/* Container for alignment */
+.dollars-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px; /* Adjust as needed */
+  height: 200px; /* Adjust as needed */
+  /* Or use a larger container and position the logo */
+}
+
+/* Outer Circle (using pseudo-elements or nested divs for borders) */
+.outer-circle {
+  width: 190px; /* (200 - 10px padding for stroke) */
+  height: 190px;
+  border-radius: 50%; /* Makes it a circle */
+  border: 5px solid white; /* Simulates the white stroke */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Inner Circle (black background) */
+.inner-circle {
+  width: 170px; /* Smaller than outer, considering border */
+  height: 170px;
+  border-radius: 50%;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Text "DOLLARS" */
+.dollars-text {
+  color: white; /* Default color, very hard to make pixelated and multi-colored */
+  font-family: 'Press Start 2P', cursive; /* Example of a pixel font if imported */
+  font-size: 24px; /* Adjust as needed */
+  /*
+    Achieving the pixelated, multi-colored effect with pure CSS on text:
+    This is EXTREMELY difficult and inefficient.
+    Options (all have significant drawbacks):
+
+    1.  Individual `<span>` elements for each letter/pixel: Highly verbose HTML, hard to manage.
+        Example for one pixel:
+        <span style="background-color: red; width: 3px; height: 3px; display: inline-block;"></span>
+
+    2.  `text-shadow` or `box-shadow`: Could *simulate* a pixelated look with many tiny shadows,
+        but getting multi-colors at the pixel level is nearly impossible for text.
+        Example (single color pixelation attempt, not multi-color):
+        text-shadow:
+          1px 1px 0 red, 2px 2px 0 red, 3px 3px 0 red, /* ... many more */
+
+    3.  Using background images for text (CSS `background-clip: text`): Could work if you
+        pre-render the pixelated "DOLLARS" text as an image and use it as a background for
+        the text, clipping it. But then you're back to using an image.
+  */
+  text-align: center; /* Center the text horizontally within its container */
+  line-height: 1; /* Adjust line height if needed for vertical centering */
+}
