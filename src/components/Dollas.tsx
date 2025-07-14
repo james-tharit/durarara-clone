@@ -1,6 +1,6 @@
 import './Dollas.css'; // Assuming you have a CSS file for styling
 
-function Dollas() {
+export const Dollas = () => {
   return (
     <div className="dollars-logo-container">
       <div className="outer-circle">
@@ -12,5 +12,3 @@ function Dollas() {
       </div>
     </div>);
 }
-
-export default Dollas;

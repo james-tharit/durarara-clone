@@ -1,7 +1,7 @@
 import './App.css'
-import Dollas from './assets/components/Dollas'
+import { Dollas } from './components/Dollas'
 
-function App() {
+export const App = () => {
 
   return (
     <div className='container'>
@@ -24,5 +24,3 @@ function App() {
     </div>
   )
 }
-
-export default App
