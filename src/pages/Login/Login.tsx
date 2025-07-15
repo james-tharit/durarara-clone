@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import './Login.css'
-import { Dollas } from './components/Dollas'
-import { authenticate } from './authentication/authen'
+import { Dollas } from '../../components/Dollas.tsx'
+import { authenticate } from '../../authentication/authen'
 
 export const Login = () => {
 
