@@ -40,6 +40,13 @@ input:focus {
   align-items: center;
 }
 
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 button {
   background-color: #101010;
   color: white;
