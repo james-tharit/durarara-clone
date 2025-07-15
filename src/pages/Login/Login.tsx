@@ -1,23 +1,35 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './Login.css'
 import { Dollas } from '../../components/Dollas.tsx'
 import { authenticate } from '../../authentication/authen'
+import { useNavigate } from 'react-router'
 
 export const Login = () => {
   // This ensures the *entire* string consists only of alphanumeric characters.
   const alphanumericRegex = /^[a-zA-Z0-9]+$/;
 
+  const navigation = useNavigate();
   const keywordRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState('');
 
-  function submit(event: React.FormEvent<HTMLFormElement>) {
+  useEffect(() => {
+    checkAuthenticated();
+  }, [])
+
+  function checkAuthenticated() {
+    const token = localStorage.getItem('token');
+    if (token) navigation('/')
+  }
+
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const keyword = keywordRef.current?.value ?? '';
 
     if (keyword.trim() == '') { setError('can not be empty'); return; }
     if (!alphanumericRegex.test(keyword.trim())) { setError('can not have special characters'); return; }
     setError('');
-    authenticate(keyword);
+    await authenticate(keyword);
+    checkAuthenticated();
   }
 
   return (
