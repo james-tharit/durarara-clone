@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './Login.css'
 import { Dollas } from '../../components/Dollas.tsx'
-import { authenticate } from '../../authentication/authen'
+import { authenticate, checkAuthenticated } from '../../authentication/authen'
 import { useNavigate } from 'react-router'
 
 export const Login = () => {
@@ -13,13 +13,9 @@ export const Login = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    checkAuthenticated();
+    if (checkAuthenticated()) navigation('/')
   }, [])
 
-  function checkAuthenticated() {
-    const token = localStorage.getItem('token');
-    if (token) navigation('/')
-  }
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()

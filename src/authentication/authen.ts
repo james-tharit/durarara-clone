@@ -1,5 +1,4 @@
 import axios from "axios"
-import { useNavigate } from "react-router";
 
 export async function authenticate(secret_keyword = '') {
   try {
@@ -14,4 +13,10 @@ export async function authenticate(secret_keyword = '') {
     console.error(error);
   }
 }
+
+export function checkAuthenticated() {
+  const token = localStorage.getItem('token');
+  return token ? true : false;
+}
+
 
