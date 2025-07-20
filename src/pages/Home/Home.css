@@ -1,4 +1,4 @@
-.home-body {
+.home-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -6,6 +6,19 @@
   display: flex;
   flex-direction: column;
   background-color: #efefef;
+}
+
+.home-header {
+  display: flex;
+  flex-direction: row;
+  padding: 16px 24px;
+  justify-content: space-between;
+}
+
+.home-body {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
 }
 
 .button {
