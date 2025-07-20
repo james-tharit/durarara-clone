@@ -4,12 +4,12 @@ import './Home.css'
 export const Home = () => {
   const navigator = useNavigate()
 
-  function logout() {
+  const logout = () => {
     localStorage.removeItem('token')
     if (!checkToken()) navigator('/login')
   }
 
-  function toChat() {
+  const toChat = () => {
     navigator('/chat')
   }
 
