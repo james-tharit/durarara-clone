@@ -34,7 +34,7 @@ export const Login = () => {
   }
 
   return (
-    <div className='container'>
+    <div className="login-body">
       <div className='logo'>
         <Dollas />
       </div>
@@ -45,7 +45,7 @@ export const Login = () => {
             <input ref={keywordRef} name='keyword' type='password' ></input>
           </div>
           <div className='button-container'>
-            <button type='submit' onClick={() => console.warn("no function")}>
+            <button className="button" type='submit' onClick={() => console.warn("no function")}>
               <p style={{ padding: '0px 8vh', margin: '0' }}> ENTER</p>
             </button>
             {error ? <p style={{ fontSize: 'xx-small', color: 'red', fontWeight: 'bold' }}>{error}</p> : <></>}

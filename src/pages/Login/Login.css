@@ -1,4 +1,4 @@
-.container {
+.login-body {
   display: flex;
   height: 100vh;
   width: 100%;
@@ -6,6 +6,7 @@
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
+  background-color: #111827;
 }
 
 .logo {
@@ -48,11 +49,10 @@ input:focus {
   align-items: center;
 }
 
-button {
+.button {
   background-color: #101010;
   color: white;
   border-radius: 8px;
-  border: 2px solid white;
   font-size: 22px;
 }
 

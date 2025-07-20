@@ -10,9 +10,12 @@ export const Home = () => {
 
   return (
     <div>
-      <div className="chat-container" >
-        <h1 style={{ color: 'black', fontWeight: 'bold', padding: 0, margin: 0 }}>Welcome to Dollas</h1>
-        <button onClick={logout} > logout</button>
+      <div className="home-body" >
+        <div>
+          <h1 style={{ color: 'black', fontWeight: 'bold', padding: 0, margin: 0 }}>Welcome to Dollas</h1>
+          <button onClick={logout} > logout</button>
+
+        </div>
       </div>
     </div >
   );
