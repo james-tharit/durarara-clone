@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router';
-import { checkAuthenticated } from '../../authentication/authen';
+import { checkToken } from '../../authentication/authen';
 import './Home.css'
 export const Home = () => {
   const navigator = useNavigate()
   function logout() {
     localStorage.removeItem('token')
-    if (!checkAuthenticated()) navigator('/login')
+    if (!checkToken()) navigator('/login')
   }
 
   return (

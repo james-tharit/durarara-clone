@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './Login.css'
 import { Dollas } from '../../components/Dollas.tsx'
-import { authenticate, checkAuthenticated } from '../../authentication/authen'
+import { authenticate, checkToken, healthCheck } from '../../authentication/authen'
 import { useNavigate } from 'react-router'
 
 export const Login = () => {
@@ -12,8 +12,13 @@ export const Login = () => {
   const keywordRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState('');
 
+  const checkAuthenticated = () => {
+    if (checkToken()) navigation('/')
+  }
+
   useEffect(() => {
-    if (checkAuthenticated()) navigation('/')
+    healthCheck()
+    checkAuthenticated()
   }, [])
 
 
@@ -24,7 +29,7 @@ export const Login = () => {
     if (keyword.trim() == '') { setError('can not be empty'); return; }
     if (!alphanumericRegex.test(keyword.trim())) { setError('can not have special characters'); return; }
     setError('');
-    await authenticate(keyword);
+    await authenticate(keyword).catch(setError);
     checkAuthenticated();
   }
 
