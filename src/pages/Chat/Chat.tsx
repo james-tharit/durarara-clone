@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router';
 import './Chat.css'
-import { initiateChat } from '../../service/llm/ollama';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 export const Chat = () => {
   const navigate = useNavigate();
   const prompt = useRef<HTMLTextAreaElement>(null);
+
+  const ws = useRef<WebSocket>(null)
   const [chats, appendChat] = useState<Array<string>>([])
 
   const backHome = () => {
@@ -16,15 +17,31 @@ export const Chat = () => {
     const message = prompt.current ? prompt.current.value : '';
     console.log("Message from useRef:", message);
 
-    const res = await initiateChat(message)
-    if (res) appendChat((prev) => [...prev, res]);
-    console.log(chats)
+    sendMessage(message)
 
     // Optionally clear the textarea by directly manipulating the DOM element
     if (prompt.current) {
       prompt.current.value = '';
     }
   };
+
+  const sendMessage = (message: string) => {
+    if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+      ws.current.send(message);
+    }
+  };
+
+
+  useEffect(() => {
+    ws.current = new WebSocket('ws://localhost:3000/chat');
+
+    ws.current.onmessage = (m) => {
+      if (m.data) {
+        console.log(m.data)
+        appendChat((prev) => [...prev, m.data.toString()])
+      }
+    }
+  }, [])
 
   return (
     <div>
@@ -35,14 +52,14 @@ export const Chat = () => {
             <button onClick={backHome}>exit</button>
           </div>
           <div className="chat-input">
-            <textarea ref={prompt} />
+            <textarea disabled={ws.current?.OPEN ? false : true} ref={prompt} />
           </div>
           <button type="submit" >post! </button>
         </form>
       </div>
       <div className="chat-body">
         {
-          chats.map((message, id) => <p style={{ color: "black" }} key={id}>{message}</p>)
+          chats.map((message, id) => <pre style={{ color: "black" }} key={id} dangerouslySetInnerHTML={{ __html: message }} />)
         }
       </div>
     </div>
