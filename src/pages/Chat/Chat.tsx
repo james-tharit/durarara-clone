@@ -1,12 +1,18 @@
 import { useNavigate } from 'react-router';
 import './Chat.css'
 import { useEffect, useRef, useState } from 'react';
+
+type ChatMessage = {
+  message: string,
+  isSender: boolean
+}
+
 export const Chat = () => {
   const navigate = useNavigate();
   const prompt = useRef<HTMLTextAreaElement>(null);
 
   const ws = useRef<WebSocket>(null)
-  const [chats, appendChat] = useState<Array<string>>([])
+  const [chats, appendChat] = useState<Array<ChatMessage>>([])
 
   const backHome = () => {
     navigate('/');
@@ -25,9 +31,14 @@ export const Chat = () => {
     }
   };
 
+  const newChat = (message: string, isSender: boolean) => {
+    appendChat((pre) => [...pre, { message, isSender }])
+  }
+
   const sendMessage = (message: string) => {
     if (ws.current && ws.current.readyState === WebSocket.OPEN) {
       ws.current.send(message);
+      newChat(message, true)
     }
   };
 
@@ -38,13 +49,13 @@ export const Chat = () => {
     ws.current.onmessage = (m) => {
       if (m.data) {
         console.log(m.data)
-        appendChat((prev) => [...prev, m.data.toString()])
+        newChat(m.data.toString(), false)
       }
     }
   }, [])
 
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <div className="chat-container" >
         <form onSubmit={handleSubmit}>
           <div className="chat-header">
@@ -52,14 +63,16 @@ export const Chat = () => {
             <button onClick={backHome}>exit</button>
           </div>
           <div className="chat-input">
-            <textarea disabled={ws.current?.OPEN ? false : true} ref={prompt} />
+            <textarea ref={prompt} />
           </div>
           <button type="submit" >post! </button>
         </form>
       </div>
       <div className="chat-body">
         {
-          chats.map((message, id) => <pre style={{ color: "black" }} key={id} dangerouslySetInnerHTML={{ __html: message }} />)
+          chats.map(({ message, isSender }, id) =>
+            <pre style={{ fontSize: "14", color: isSender ? "black" : "red", alignContent: isSender ? "end" : "start" }} key={id}>{message}</pre>
+          )
         }
       </div>
     </div>

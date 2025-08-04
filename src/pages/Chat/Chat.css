@@ -17,7 +17,10 @@
 }
 
 .chat-body {
+  width: 100vw;
+  flex-wrap: wrap;
   padding: 8px;
+  overflow-y: scroll;
 }
 
 .chat-message {
