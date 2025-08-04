@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router';
-import './Chat.css'
+import { ChatBox } from '../../components/ChatBox';
+import './Chat.css';
 import { useEffect, useRef, useState } from 'react';
 
 type ChatMessage = {
@@ -10,7 +11,6 @@ type ChatMessage = {
 export const Chat = () => {
   const navigate = useNavigate();
   const prompt = useRef<HTMLTextAreaElement>(null);
-
   const ws = useRef<WebSocket>(null)
   const [chats, appendChat] = useState<Array<ChatMessage>>([])
 
@@ -43,6 +43,7 @@ export const Chat = () => {
   };
 
 
+
   useEffect(() => {
     ws.current = new WebSocket('ws://localhost:3000/chat');
 
@@ -59,22 +60,21 @@ export const Chat = () => {
       <div className="chat-container" >
         <form onSubmit={handleSubmit}>
           <div className="chat-header">
-            <p style={{ color: 'black', fontWeight: 'bold', padding: 0, margin: 0 }}>dollaschat</p>
+            <p style={{ color: 'black', fontSize: "32px", fontWeight: 'bold', padding: 0, margin: 0 }}>Dollaschat</p>
             <button onClick={backHome}>exit</button>
           </div>
           <div className="chat-input">
-            <textarea ref={prompt} />
+            <textarea style={{ fontSize: "18px", borderRadius: '12px' }} ref={prompt} />
           </div>
-          <button type="submit" >post! </button>
+          <button type="submit" style={{ width: "98%", margin: "16px" }} >post! </button>
         </form>
       </div>
-      <div className="chat-body">
+      <div className="chat-body"  >
         {
-          chats.map(({ message, isSender }, id) =>
-            <pre style={{ fontSize: "14", color: isSender ? "black" : "red", alignContent: isSender ? "end" : "start" }} key={id}>{message}</pre>
-          )
+          chats.map(({ message, isSender }, id) => (<ChatBox message={message} id={id} isSender={isSender} />))
         }
       </div>
     </div>
   );
 }
+
